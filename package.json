@@ -1,10 +1,10 @@
 {
     "name": "my-project",
     "version": "1.0.0",
+    "private": true,
     "scripts": {
-        "build": "rd -r public\\scripts 2>null & tsc",
-        "build:dev": "rd -r public\\scripts 2>null & tsc -p tsconfig-dev.json",
-        "start": "http-server -p 3000 -c-1",
+        "build": "webpack --config webpack.config.js",
+        "start": "webpack serve --config webpack-dev.config.js --open",
         "lint": "eslint src --ext .js --ext .ts",
         "lint-fix": "eslint src --ext .js --ext .ts --fix"
     },
@@ -12,7 +12,12 @@
         "@typescript-eslint/eslint-plugin": "^5.9.1",
         "@typescript-eslint/parser": "^5.9.1",
         "eslint": "^8.6.0",
+        "html-webpack-plugin": "^5.5.0",
         "http-server": "^14.1.0",
-        "typescript": "^4.2.4"
+        "ts-loader": "^9.2.6",
+        "typescript": "^4.5.4",
+        "webpack": "^5.66.0",
+        "webpack-cli": "^4.9.1",
+        "webpack-dev-server": "^4.7.3"
     }
 }
