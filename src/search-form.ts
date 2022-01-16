@@ -1,10 +1,19 @@
-import { renderBlock } from './lib.js'
+import { renderBlock } from "./lib";
+import moment from "moment";
 
-export function renderSearchFormBlock () {
+export function renderSearchFormBlock(checkInDate: Date, checkOutDate: Date) {
+  const checkIn = moment(checkInDate);
+  const checkOut = moment(checkOutDate);
+
+  const today = moment();
+  const lastDay = moment().add(1, "M").endOf("month");
+
+  const formatDate = (value: moment.Moment) => value.format("YYYY-MM-DD");
+
   renderBlock(
-    'search-form-block',
+    "search-form-block",
     `
-    <form>
+    <form> 
       <fieldset class="search-filedset">
         <div class="row">
           <div>
@@ -20,11 +29,19 @@ export function renderSearchFormBlock () {
         <div class="row">
           <div>
             <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value="2021-05-11" min="2021-05-11" max="2021-06-30" name="checkin" />
+            <input id="check-in-date" type="date" value="${formatDate(
+              checkIn
+            )}" min="${formatDate(today)}" max="${formatDate(
+      lastDay
+    )}" name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value="2021-05-13" min="2021-05-11" max="2021-06-30" name="checkout" />
+            <input id="check-out-date" type="date" value="${formatDate(
+              checkOut
+            )}" min="${formatDate(today)}" max="${formatDate(
+      lastDay
+    )}" name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
@@ -37,5 +54,5 @@ export function renderSearchFormBlock () {
       </fieldset>
     </form>
     `
-  )
+  );
 }
