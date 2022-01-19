@@ -22,10 +22,22 @@ function handleSearch(form: HTMLFormElement) {
 
   const searchFormData = { city, checkInDate, checkOutDate, maxPrice };
 
-  search(searchFormData);
+  search(searchFormData, (value) => {});
 }
 
-function search(searchFormData: SearchFormData) {
+interface Place {}
+
+type SearchCallBack = (value: Place[] | Error) => void;
+
+function search(searchFormData: SearchFormData, cb: SearchCallBack) {
+  setTimeout(() => {
+    if (Math.random() < 0.5) {
+      cb(new Error("Error"));
+    } else {
+      cb([]);
+    }
+  }, 2000);
+
   console.log(searchFormData);
 }
 
