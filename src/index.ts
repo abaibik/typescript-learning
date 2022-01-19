@@ -5,7 +5,7 @@ import { renderToast } from "./lib";
 import * as moment from "moment";
 
 window.addEventListener("DOMContentLoaded", () => {
-  renderUserBlock(0, "Wade Warren", "/img/avatar.png");
+  renderUserBlock();
   renderSearchFormBlock(
     moment().add(1, "days").toDate(),
     moment().add(3, "days").toDate()

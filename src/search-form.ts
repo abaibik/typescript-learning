@@ -1,6 +1,46 @@
 import { renderBlock } from "./lib";
 import moment from "moment";
 
+interface SearchFormData {
+  city: string;
+  checkInDate: Date;
+  checkOutDate: Date;
+  maxPrice: number;
+}
+
+function handleSearch(form: HTMLFormElement) {
+  const city = form.querySelector<HTMLInputElement>("#city").value;
+  const checkInDate = new Date(
+    form.querySelector<HTMLInputElement>("#check-in-date").value
+  );
+  const checkOutDate = new Date(
+    form.querySelector<HTMLInputElement>("#check-out-date").value
+  );
+  const maxPrice = parseInt(
+    form.querySelector<HTMLInputElement>("#max-price").value
+  );
+
+  const searchFormData = { city, checkInDate, checkOutDate, maxPrice };
+
+  search(searchFormData, (value) => {});
+}
+
+interface Place {}
+
+type SearchCallBack = (value: Place[] | Error) => void;
+
+function search(searchFormData: SearchFormData, cb: SearchCallBack) {
+  setTimeout(() => {
+    if (Math.random() < 0.5) {
+      cb(new Error("Error"));
+    } else {
+      cb([]);
+    }
+  }, 2000);
+
+  console.log(searchFormData);
+}
+
 export function renderSearchFormBlock(checkInDate: Date, checkOutDate: Date) {
   const checkIn = moment(checkInDate);
   const checkOut = moment(checkOutDate);
@@ -9,6 +49,11 @@ export function renderSearchFormBlock(checkInDate: Date, checkOutDate: Date) {
   const lastDay = moment().add(1, "M").endOf("month");
 
   const formatDate = (value: moment.Moment) => value.format("YYYY-MM-DD");
+
+  const hanleSubmit = (event: Event) => {
+    event.preventDefault();
+    handleSearch(event.target as HTMLFormElement);
+  };
 
   renderBlock(
     "search-form-block",
