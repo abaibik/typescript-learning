@@ -1,13 +1,24 @@
-export function renderBlock(elementId, html) {
+export function renderBlock(elementId: string, html: string) {
   const element = document.getElementById(elementId);
-  element.innerHTML = html;
+  if (element) {
+    element.innerHTML = html;
+  }
 }
 
-export function renderToast(message, action = undefined) {
-  let messageText = "";
+export type Action = {
+  name: string;
+  messageText: string | null;
+  handler: () => void;
+};
 
-  if (message != null) {
-    messageText = `
+export function renderToast(
+  message: { type: string; text: string } | null,
+  action: Action | undefined = undefined
+) {
+  const messageText = "";
+
+  if (message != null && action != null) {
+    action.messageText = `
       <div id="info-block" class="info-block ${message.type}">
         <p>${message.text}</p>
         <button id="toast-main-action">${action?.name || "Закрыть"}</button>

@@ -17,6 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
       type: "success",
     },
     {
+      messageText: null,
       name: "Понял",
       handler: () => {
         console.log("Уведомление закрыто");
