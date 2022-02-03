@@ -9,23 +9,25 @@ interface SearchFormData {
 }
 
 function handleSearch(form: HTMLFormElement) {
-  const city = form.querySelector<HTMLInputElement>("#city").value;
-  const checkInDate = new Date(
-    form.querySelector<HTMLInputElement>("#check-in-date").value
-  );
-  const checkOutDate = new Date(
-    form.querySelector<HTMLInputElement>("#check-out-date").value
-  );
-  const maxPrice = parseInt(
-    form.querySelector<HTMLInputElement>("#max-price").value
-  );
+  const cityEl = form.querySelector<HTMLInputElement>("#city");
+  const city = cityEl ? cityEl.value : "unknown";
+  const checkInEl = form.querySelector<HTMLInputElement>("#check-in-date");
+  const checkInDate = new Date(checkInEl ? checkInEl.value : "");
+  const checkOutEl = form.querySelector<HTMLInputElement>("#check-out-date");
+  const checkOutDate = new Date(checkOutEl ? checkOutEl.value : "");
+  const maxPriceEl = form.querySelector<HTMLInputElement>("#max-price");
+  const maxPrice = maxPriceEl ? parseInt(maxPriceEl.value) : 1000;
 
   const searchFormData = { city, checkInDate, checkOutDate, maxPrice };
 
-  search(searchFormData, (value) => {});
+  search(searchFormData, (value) => {
+    console.log(value);
+  });
 }
 
-interface Place {}
+interface Place {
+  city: string;
+}
 
 type SearchCallBack = (value: Place[] | Error) => void;
 
@@ -50,10 +52,13 @@ export function renderSearchFormBlock(checkInDate: Date, checkOutDate: Date) {
 
   const formatDate = (value: moment.Moment) => value.format("YYYY-MM-DD");
 
-  const hanleSubmit = (event: Event) => {
-    event.preventDefault();
-    handleSearch(event.target as HTMLFormElement);
+  const hanleSubmit = (event: Event | undefined = undefined) => {
+    if (event) {
+      event.preventDefault();
+      handleSearch(event.target as HTMLFormElement);
+    }
   };
+  hanleSubmit();
 
   renderBlock(
     "search-form-block",
